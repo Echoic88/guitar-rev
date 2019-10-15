@@ -10,9 +10,22 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-def test():
-    
-    return render_template("test2.html", guitars=mongo.db.guitars.find())
+@app.route("/home")
+def home():
+    guitars = mongo.db.guitars
+    return render_template("base.html", guitars=guitars.find())
+
+
+@app.route("/guitars")
+def guitars():
+    guitars = mongo.db.guitars
+    return render_template("guitars.html", guitars=guitars.find())
+
+
+@app.route("/poll")
+def poll():
+    guitars = mongo.db.guitars
+    return render_template("poll.html", guitars=guitars.find())
 
 
 if __name__ == "__main__":
