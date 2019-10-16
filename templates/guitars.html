@@ -3,4 +3,10 @@
 
 <h2> Guitars Test Header </h2>
 
+<a class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Tell us about your guitar!</a>
+
+    {% for guitar in guitars %}
+        <p>{{guitar.gtr_name}} - {{ guitar.rating }}</p>
+    {% endfor %}
+
 {% endblock %}

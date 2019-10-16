@@ -12,8 +12,7 @@ mongo = PyMongo(app)
 @app.route("/")
 @app.route("/home")
 def home():
-    guitars = mongo.db.guitars
-    return render_template("base.html", guitars=guitars.find())
+    return render_template("base.html")
 
 
 @app.route("/guitars")
