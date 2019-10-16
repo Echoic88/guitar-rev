@@ -21,10 +21,22 @@ def guitars():
     return render_template("guitars.html", guitars=guitars.find())
 
 
+@app.route("/input_guitar")
+def input_guitar():
+    return render_template("guitars-form.html")
+
+
+@app.route("/form_submit")
+def form_submit():
+    return render_template("base.html")
+
 @app.route("/poll")
 def poll():
     guitars = mongo.db.guitars
     return render_template("poll.html", guitars=guitars.find())
+
+
+
 
 
 if __name__ == "__main__":
