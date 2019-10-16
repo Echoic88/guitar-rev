@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2> Guitars Input Form </h2>
+
+<div class="row">
+    <form class="col s12" action="{{ url_for('input_guitar') }}" method="POST">
+        <div class="row">
+            <div class="input-field col">
+                <input name="gtr_name" id="gtr_name" type="text" class="validate">
+                <label for="gtr_name">Guitar</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col">
+                <input name="brand" id="brand" type="text" class="validate">
+                <label for="brand">Brand</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col">
+                <input name="gtr_type" id="gtr_type" type="text" class="validate">
+                <label for="gtr_type">Guitar Type</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col">
+                <input name="pickup_config" id="pickup_config" type="text" class="validate">
+                <label for="pickup_config">Pickup Config</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col">
+                <input id="email" class="validate" type="number" max="5" min="0">
+                <label for="email">Rating</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col">
+                <textarea name="comment" id="comment" rows="4" cols="50" maxlength="200"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
