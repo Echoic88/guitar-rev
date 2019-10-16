@@ -52,9 +52,15 @@ def poll():
     """
     Navigate to Poll page to vote on exciting guitar
     """
-    guitars = mongo.db.guitars
-    return render_template("poll.html", guitars=guitars.find())
+    mongo.db.poll_results
+    return render_template("poll.html", poll_results=mongo.db.poll_results)
 
+@app.route("/submit_vote")
+def submit_vote():
+    """
+    Add vote results to poll results in DB
+    """
+    vote=request.form("vote")
 
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
