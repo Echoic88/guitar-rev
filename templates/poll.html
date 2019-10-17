@@ -1,6 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
+<h1> Poll Heading </h1>
 
-<h2> Poll Test Header </h2>
+<h2>Which of this year's guitars are you most excited about?!?!</h2>
 
+<main>
+    {% for result in results %}
+    <p>{{ result }}</p>
+    {% endfor %}
+
+    <form id="voteForm" action="{{ url_for('submit_vote') }}" method="POST">
+        <div class="input-field col">
+            <input name="user_name" id="user_name" type="text" autocomplete="false" required>
+            <label for="user_name">Username</label>
+        </div>
+        <p>
+            <label>
+                <input class="with-gap" name="vote" id="stratVote" value="vote_strat" type="radio" />
+                <span>Stratocaster</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input class="with-gap" name="vote" id="lespaulVote" value="vote_lespaul" type="radio" />
+                <span>Les Paul</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input class="with-gap" name="vote" id="xGuitarVote" value="vote_xguitar" type="radio" />
+                <span>X-Guitar</span>
+            </label>
+        </p>
+        <button id="voteButton" class="btn waves-effect waves-light" type="submit">Vote
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+</main>
 {% endblock %}

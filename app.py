@@ -22,7 +22,7 @@ def home():
 @app.route("/guitars")
 def guitars():
     """
-    Navigate to the list of user guitars
+    Navigate to guitars.html
     """
     guitars = mongo.db.guitars
     return render_template("guitars.html", guitars=guitars.find())
@@ -43,12 +43,12 @@ def input_guitar():
     Insert details from the guitars_form to a new
     DB entry in guitars collection
     """
-    guitars=mongo.db.guitars
-    users=mongo.db.users
-    form_output=request.form.to_dict()
-    guitar_data=copy.copy(form_output)
+    guitars = mongo.db.guitars
+    users = mongo.db.users
+    form_output = request.form.to_dict()
+    guitar_data = copy.copy(form_output)
     user=guitar_data.pop("user_name")
-    new_user={"username":user}
+    new_user = {"username":user}
 
     print(form_output)
     print(new_user)
@@ -62,10 +62,10 @@ def input_guitar():
 @app.route("/poll")
 def poll():
     """
-    Navigate to Poll page to vote on exciting guitar
+    Navigate to poll.html
     """
-    results=mongo.db.poll_results.find_one({"_id": ObjectId("5da6df251c9d4400001daf58")})
-    return render_template("poll.html", results=results)
+    return render_template("poll.html")
+
 
 
 @app.route("/submit_vote", methods=["POST"])
@@ -73,7 +73,14 @@ def submit_vote():
     """
     Add vote results to poll results in DB
     """
-    vote=request.form("vote")
+    vote = request.form.get("vote")
+    user_name = request.form.get("user_name")
+    user_vote = {"ballot":user_name}
+    mongo.db[vote].insert(user_vote)
+    print(vote)
+
+
+    return render_template("poll.html")
     
 
 if __name__ == "__main__":
