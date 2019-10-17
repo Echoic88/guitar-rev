@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, request
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+import copy
  
 app = Flask(__name__)
 app.config["MONGODB_NAME"] = "guitarReview"
@@ -43,7 +44,18 @@ def input_guitar():
     DB entry in guitars collection
     """
     guitars=mongo.db.guitars
-    guitars.insert_one(request.form.to_dict())
+    users=mongo.db.users
+    form_output=request.form.to_dict()
+    guitar_data=copy.copy(form_output)
+    user=guitar_data.pop("user_name")
+    new_user={"username":user}
+
+    print(form_output)
+    print(new_user)
+    print(guitar_data)
+
+    guitars.insert_one(guitar_data)
+    users.insert_one(new_user)
     return render_template("guitars.html")
 
 
@@ -52,15 +64,17 @@ def poll():
     """
     Navigate to Poll page to vote on exciting guitar
     """
-    mongo.db.poll_results
-    return render_template("poll.html", poll_results=mongo.db.poll_results)
+    results=mongo.db.poll_results.find_one({"_id": ObjectId("5da6df251c9d4400001daf58")})
+    return render_template("poll.html", results=results)
 
-@app.route("/submit_vote")
+
+@app.route("/submit_vote", methods=["POST"])
 def submit_vote():
     """
     Add vote results to poll results in DB
     """
     vote=request.form("vote")
+    
 
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
