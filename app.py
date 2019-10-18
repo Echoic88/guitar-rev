@@ -11,12 +11,12 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-@app.route("/home")
-def home():
+@app.route("/index")
+def index():
     """ 
     Navigate to home page
     """
-    return render_template("base.html")
+    return render_template("index.html")
 
 
 @app.route("/guitars")
@@ -41,15 +41,11 @@ def guitars_form():
 def input_guitar():
     """
     Insert details from the guitars_form to a new
-    DB entry in guitars collection
+    DB entry in guitars and users collections
     """
     guitars = mongo.db.guitars
     users = mongo.db.users
-    """
-    form_output = request.form.to_dict()
-    guitar_data = copy.copy(form_output)
-    user=guitar_data.pop("user_name")
-    """
+
     #Insert the guitar data from the form into guitars collection
     #return the newly created guitar object id to variable gtr_id
     gtr_id = guitars.insert_one({
@@ -63,13 +59,12 @@ def input_guitar():
 
 
     #Insert a new user to users collection
-    #Add the guitar name from the form and the newly created guitar id the 
+    #Add the guitar name from the form and the newly created guitar id to 
     #the object containing the users guitars
     users.insert_one({
             "user_name":request.form.get("user_name"),
             "user_guitars":{request.form.get("gtr_name"):gtr_id}
     })
-    
     return render_template("guitars.html")
 
 
@@ -87,14 +82,26 @@ def submit_vote():
     Add vote results to individual collections in DB for results 
     """
     vote = request.form.get("vote")
-    user_name = request.form.get("user_name")
-    user_vote = {"ballot":user_name}
-    mongo.db[vote].insert(user_vote)
-    print(vote)
-
-
+    mongo.db[vote].insert_one({"vote":vote})
     return render_template("poll.html")
-    
+
+
+@app.route("/register")
+def register():
+    """
+    Navigate to registration form for new users
+    """
+    return render_template("register.html")
+
+
+@app.route("/register_user", methods=["POST"])
+def register_user():
+    """
+    Create new user from register user form
+    """
+    mongo.db.users.insert_one(request.form.to_dict())
+    return render_template("register.html")
+
 
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
