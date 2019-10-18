@@ -61,11 +61,20 @@ def input_guitar():
     #Insert a new user to users collection
     #Add the guitar name from the form and the newly created guitar id to 
     #the object containing the users guitars
-    users.insert_one({
-            "user_name":request.form.get("user_name"),
-            "user_guitars":{request.form.get("gtr_name"):gtr_id}
-    })
+    
+    #x = users.find({"user_name":request.form.get("user_name"})
+    #print(x)
+
     return render_template("guitars.html")
+
+
+
+
+
+
+
+
+
 
 
 @app.route("/poll")
