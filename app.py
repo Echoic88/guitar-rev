@@ -45,17 +45,31 @@ def input_guitar():
     """
     guitars = mongo.db.guitars
     users = mongo.db.users
+    """
     form_output = request.form.to_dict()
     guitar_data = copy.copy(form_output)
     user=guitar_data.pop("user_name")
-    new_user = {"username":user}
+    """
+    #Insert the guitar data from the form into guitars collection
+    #return the newly created guitar object id to variable gtr_id
+    gtr_id = guitars.insert_one({
+            "gtr_name":request.form.get("gtr_name"),
+            "brand":request.form.get("brand"),
+            "gtr_type":request.form.get("gtr_type"),
+            "pickup_config":request.form.get("pickup_config"),
+            "rating":request.form.get("rating"),
+            "comment":request.form.get("comment")
+        }).inserted_id
 
-    print(form_output)
-    print(new_user)
-    print(guitar_data)
 
-    guitars.insert_one(guitar_data)
-    users.insert_one(new_user)
+    #Insert a new user to users collection
+    #Add the guitar name from the form and the newly created guitar id the 
+    #the object containing the users guitars
+    users.insert_one({
+            "user_name":request.form.get("user_name"),
+            "user_guitars":{request.form.get("gtr_name"):gtr_id}
+    })
+    
     return render_template("guitars.html")
 
 
@@ -67,11 +81,10 @@ def poll():
     return render_template("poll.html")
 
 
-
 @app.route("/submit_vote", methods=["POST"])
 def submit_vote():
     """
-    Add vote results to poll results in DB
+    Add vote results to individual collections in DB for results 
     """
     vote = request.form.get("vote")
     user_name = request.form.get("user_name")

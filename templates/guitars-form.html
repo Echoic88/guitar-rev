@@ -7,31 +7,31 @@
     <form class="col s12" action="{{ url_for('input_guitar') }}" method="POST">
         <div class="row">
             <div class="input-field col">
-                <input name="user_name" id="user_name" type="text" autocomplete="false">
+                <input name="user_name" id="user_name" type="text" autocomplete="false" required>
                 <label for="user_name">Username</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col">
-                <input name="gtr_name" id="gtr_name" type="text" autocomplete="false">
+                <input name="gtr_name" id="gtr_name" type="text" autocomplete="false" required>
                 <label for="gtr_name">Guitar</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col">
-                <input name="brand" id="brand" type="text" class="validate" autocomplete="false">
+                <input name="brand" id="brand" type="text" class="validate" autocomplete="false" required>
                 <label for="brand">Brand</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col">
-                <input name="gtr_type" id="gtr_type" type="text" class="validate" autocomplete="false">
+                <input name="gtr_type" id="gtr_type" type="text" class="validate" autocomplete="false" required>
                 <label for="gtr_type">Guitar Type</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col">
-                <input name="pickup_config" id="pickup_config" type="text" class="validate" autocomplete="false">
+                <input name="pickup_config" id="pickup_config" type="text" class="validate" autocomplete="false" required>
                 <label for="pickup_config">Pickup Config</label>
             </div>
         </div>
