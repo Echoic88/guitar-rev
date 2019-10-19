@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import copy
@@ -37,14 +37,20 @@ def guitars_form():
     return render_template("guitars-form.html")
 
 
+"""
 @app.route("/input_guitar", methods=["POST"])
 def input_guitar():
-    """
-    Insert details from the guitars_form to a new
-    DB entry in guitars and users collections
-    """
+    
+    #Insert details from the guitars_form to a new
+    #DB entry in guitars and users collections
+    
     guitars = mongo.db.guitars
     users = mongo.db.users
+
+    
+    this_user=users.find_one({"user_name":request.form.get("user_name")})
+    
+
 
     #Insert the guitar data from the form into guitars collection
     #return the newly created guitar object id to variable gtr_id
@@ -57,16 +63,18 @@ def input_guitar():
             "comment":request.form.get("comment")
         }).inserted_id
 
-
-    #Insert a new user to users collection
     #Add the guitar name from the form and the newly created guitar id to 
     #the object containing the users guitars
-    
-    #x = users.find({"user_name":request.form.get("user_name"})
-    #print(x)
+
+    user_guitars = "user_guitars"
+    guitars_dict= this_user.user_guitars
+
+    users.update(this_user,
+        {"$set": {guiatrs_dict:{request.form.get("gtr_name"): gtr_id}} 
+        })
 
     return render_template("guitars.html")
-
+"""
 
 
 
@@ -110,6 +118,22 @@ def register_user():
     """
     mongo.db.users.insert_one(request.form.to_dict())
     return render_template("register.html")
+
+
+@app.route("/user_area")
+def user_area():
+    """
+    Navigate to registration form for new users
+    """
+    return render_template("user-area.html")
+
+@app.route("/edit_user")
+def edit_user():
+    """
+    Edit existing user details
+    """
+
+
 
 
 if __name__ == "__main__":
