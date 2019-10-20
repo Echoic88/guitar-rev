@@ -19,6 +19,46 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/get_user", methods=["GET", "POST"])
+def get_user():
+    """
+    Retrieve user and redirect to update_user page
+    """
+    user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
+    user_name = user["user_name"]
+    first_name = user["first_name"]
+    surname = user["surname"]
+    print(user_name, first_name, surname)
+
+    return render_template("index.html", user_name=user_name, first_name=first_name, surname=surname)
+
+
+@app.route("/edit_user")
+def edit_user():
+    """
+    Navigate to registration form for new users
+    """
+
+    """     user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
+    user_name = user["user_name"]
+    first_name = user["first_name"]
+    surname = user["surname"]
+    print(user_name, first_name, surname) 
+    return render_template("edit-user.html")
+    """
+    print(user_name)
+
+@app.route("/update_user", methods=["POST"])
+def update_user():
+    """
+    Update user details in DB
+    """
+    mongo.db.users.update_one({"user_name":request.form.get("user_name")}, {"$set": 
+                                                        {"first_name":request.form.get("first_name"),
+                                                        "surname":request.form.get("surname")}})
+    return render_template("index.html")
+
+
 @app.route("/guitars")
 def guitars():
     """
@@ -37,7 +77,7 @@ def guitars_form():
     return render_template("guitars-form.html")
 
 
-"""
+
 @app.route("/input_guitar", methods=["POST"])
 def input_guitar():
     
@@ -47,10 +87,8 @@ def input_guitar():
     guitars = mongo.db.guitars
     users = mongo.db.users
 
-    
     this_user=users.find_one({"user_name":request.form.get("user_name")})
     
-
 
     #Insert the guitar data from the form into guitars collection
     #return the newly created guitar object id to variable gtr_id
@@ -66,23 +104,11 @@ def input_guitar():
     #Add the guitar name from the form and the newly created guitar id to 
     #the object containing the users guitars
 
-    user_guitars = "user_guitars"
-    guitars_dict= this_user.user_guitars
-
-    users.update(this_user,
-        {"$set": {guiatrs_dict:{request.form.get("gtr_name"): gtr_id}} 
-        })
+    loc = "user_guitars"+"."+request.form.get("gtr_name")
+    mongo.db.users.update_one(this_user, {"$set": 
+                                                    {loc:gtr_id}})
 
     return render_template("guitars.html")
-"""
-
-
-
-
-
-
-
-
 
 
 @app.route("/poll")
@@ -118,29 +144,6 @@ def register_user():
     """
     mongo.db.users.insert_one(request.form.to_dict())
     return render_template("register.html")
-
-
-@app.route("/edit_user")
-def edit_user():
-    """
-    Navigate to page to edit/delete user details
-    """
-    return render_template("edit-user.html")
-
-
-@app.route("/get_user_details")
-def get_user_details():
-    """
-    Retrieve user details from db
-    """
-    users = mongo.db.users
-    this_user=users.find_one({"user_name":request.form.get("user_name")})
-    for x in this_user:
-        print(x)
-
-
-
-
 
 
 if __name__ == "__main__":
