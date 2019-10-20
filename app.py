@@ -120,18 +120,25 @@ def register_user():
     return render_template("register.html")
 
 
-@app.route("/user_area")
-def user_area():
-    """
-    Navigate to registration form for new users
-    """
-    return render_template("user-area.html")
-
 @app.route("/edit_user")
 def edit_user():
     """
-    Edit existing user details
+    Navigate to page to edit/delete user details
     """
+    return render_template("edit-user.html")
+
+
+@app.route("/get_user_details")
+def get_user_details():
+    """
+    Retrieve user details from db
+    """
+    users = mongo.db.users
+    this_user=users.find_one({"user_name":request.form.get("user_name")})
+    for x in this_user:
+        print(x)
+
+
 
 
 
