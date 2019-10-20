@@ -54,12 +54,13 @@ def update_user():
     return render_template("index.html")
 
 
-@app.route("/delete_user", methods=["POST"])
+@app.route("/delete_user")
 def delete_user():
     """
     Delete the current user
     """
-    mongo.db.users.remove({"user_name":request.form.get("user_name")})
+    mongo.db.users.remove({"_id":ObjectId(session["user_id"])})
+    return redirect("index.html")
 
 
 @app.route("/guitars")
@@ -80,19 +81,17 @@ def guitars_form():
     return render_template("guitars-form.html")
 
 
-
 @app.route("/input_guitar", methods=["POST"])
 def input_guitar():
-    
-    #Insert details from the guitars_form to a new
-    #DB entry in guitars and users collections
-    
+    """
+    Insert details from the guitars_form to a new
+    DB entry in guitars and users collections
+    """
     guitars = mongo.db.guitars
     users = mongo.db.users
 
     this_user=users.find_one({"user_name":request.form.get("user_name")})
     
-
     #Insert the guitar data from the form into guitars collection
     #return the newly created guitar object id to variable gtr_id
     gtr_id = guitars.insert_one({
