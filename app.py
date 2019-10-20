@@ -1,12 +1,12 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-import copy
  
 app = Flask(__name__)
 app.config["MONGODB_NAME"] = "guitarReview"
 app.config["MONGO_URI"] = os.getenv("mongoURI")
+app.secret_key = os.getenv("sessionKey")
 mongo = PyMongo(app)
 
 
@@ -22,31 +22,26 @@ def index():
 @app.route("/get_user", methods=["GET", "POST"])
 def get_user():
     """
-    Retrieve user and redirect to update_user page
+    Retrieve user details
     """
     user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
     user_name = user["user_name"]
     first_name = user["first_name"]
     surname = user["surname"]
-    print(user_name, first_name, surname)
-
+    
+    #Add user id to session cookie to navigate between pages
+    session["user_id"] = str(user["_id"])
     return render_template("index.html", user_name=user_name, first_name=first_name, surname=surname)
 
 
-@app.route("/edit_user")
+@app.route("/edit_user", methods=["GET", "POST"])
 def edit_user():
-    """
-    Navigate to registration form for new users
-    """
-
-    """     user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
+    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
     user_name = user["user_name"]
     first_name = user["first_name"]
     surname = user["surname"]
-    print(user_name, first_name, surname) 
-    return render_template("edit-user.html")
-    """
-    print(user_name)
+    return render_template("edit-user.html", user_name=user_name, first_name=first_name, surname=surname)
+
 
 @app.route("/update_user", methods=["POST"])
 def update_user():
@@ -57,6 +52,14 @@ def update_user():
                                                         {"first_name":request.form.get("first_name"),
                                                         "surname":request.form.get("surname")}})
     return render_template("index.html")
+
+
+@app.route("/delete_user", methods=["POST"])
+def delete_user():
+    """
+    Delete the current user
+    """
+    mongo.db.users.remove({"user_name":request.form.get("user_name")})
 
 
 @app.route("/guitars")
