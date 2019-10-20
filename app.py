@@ -25,13 +25,19 @@ def get_user():
     Retrieve user details
     """
     user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
-    user_name = user["user_name"]
-    first_name = user["first_name"]
-    surname = user["surname"]
     
-    #Add user id to session cookie to navigate between pages
-    session["user_id"] = str(user["_id"])
-    return render_template("index.html", user_name=user_name, first_name=first_name, surname=surname)
+    try:
+        user_name = user["user_name"]
+        first_name = user["first_name"]
+        surname = user["surname"]
+        
+        #Add user id to session cookie to navigate between pages
+        session["user_id"] = str(user["_id"])
+        return render_template("index.html", user_name=user_name, first_name=first_name, surname=surname)
+
+    except:
+        print("NO SUCH USER")
+        return redirect("/index")
 
 
 @app.route("/edit_user", methods=["GET", "POST"])
