@@ -48,7 +48,7 @@ def update_user():
     """
     Update user details in DB
     """
-    mongo.db.users.update_one({"user_name":request.form.get("user_name")}, {"$set": 
+    mongo.db.users.update_one({"_id":ObjectId(session["user_id"])}, {"$set": 
                                                         {"first_name":request.form.get("first_name"),
                                                         "surname":request.form.get("surname")}})
     return render_template("index.html")
@@ -90,7 +90,7 @@ def input_guitar():
     guitars = mongo.db.guitars
     users = mongo.db.users
 
-    this_user=users.find_one({"user_name":request.form.get("user_name")})
+    user=users.find_one({"_id":ObjectId(session["user_id"])})
     
     #Insert the guitar data from the form into guitars collection
     #return the newly created guitar object id to variable gtr_id
@@ -107,8 +107,7 @@ def input_guitar():
     #the object containing the users guitars
 
     loc = "user_guitars"+"."+request.form.get("gtr_name")
-    mongo.db.users.update_one(this_user, {"$set": 
-                                                    {loc:gtr_id}})
+    mongo.db.users.update_one(user, {"$set":{loc:gtr_id}})
 
     return render_template("guitars.html")
 
