@@ -90,18 +90,17 @@ def guitars_form():
     return render_template("guitars-form.html")
 
 
-@app.route("/input_guitar", methods=["POST"])
+@app.route("/input_guitar", methods=["GET","POST"])
 def input_guitar():
     """
     Insert details from the guitars_form to a new
     DB entry in guitars and users collections
     """
-    user = users.find_one({"_id":ObjectId(session["user_id"])})
+    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
     guitars = mongo.db.guitars 
     
     try:
         #Insert the guitar data from the form into guitars collection
-        #return the newly created guitar object id to variable gtr_id
         guitars.insert_one({
             "gtr_name":request.form.get("gtr_name"),
             "brand":request.form.get("brand"),
@@ -113,7 +112,7 @@ def input_guitar():
         })
         return render_template("guitars.html")
     except:
-        print("NO SUCH USER")
+        print("No user logged in")
         return redirect("/index")
     
 
