@@ -75,7 +75,7 @@ def guitars():
     """
     Navigate to guitars.html
     """
-    user = users.find_one({"_id":ObjectId(session["user_id"])})
+    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
     guitars = mongo.db.guitars
 
     return render_template("guitars.html", guitars=guitars.find(), user=user)
