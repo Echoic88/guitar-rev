@@ -12,7 +12,7 @@
     </h4>
 </div>
 
-<a href="{{ url_for('input_guitar') }}" class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Tell us about your guitar!</a>
+<a href="{{ url_for('guitars_form') }}" class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Tell us about your guitar!</a>
 
     {% for guitar in guitars %}
         <p>{{guitar.gtr_name}} - {{guitar.rating}}</p>

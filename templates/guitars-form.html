@@ -4,13 +4,16 @@
 <h2> Guitars Input Form </h2>
 
 <div class="row">
+    <h4>{% if user is none %}
+            Please Log In
+        {% else %}
+            Hi {{ user.user_name }}
+        {% endif %}
+    </h4>
+</div>
+
+<div class="row">
     <form class="col s12" action="{{ url_for('input_guitar') }}" method="POST">
-        <div class="row">
-            <div class="input-field col">
-                <input name="user_name" id="user_name" type="text" autocomplete="false" required>
-                <label for="user_name">Username</label>
-            </div>
-        </div>
         <div class="row">
             <div class="input-field col">
                 <input name="gtr_name" id="gtr_name" type="text" autocomplete="false" required>

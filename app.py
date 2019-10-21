@@ -87,7 +87,8 @@ def guitars_form():
     When "Tell Us About Your Guitar" button is
     pressed navigate to guitars form 
     """
-    return render_template("guitars-form.html")
+    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+    return render_template("guitars-form.html", user=user)
 
 
 @app.route("/input_guitar", methods=["GET","POST"])
@@ -98,22 +99,18 @@ def input_guitar():
     """
     user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
     guitars = mongo.db.guitars 
-    
-    try:
-        #Insert the guitar data from the form into guitars collection
-        guitars.insert_one({
-            "gtr_name":request.form.get("gtr_name"),
-            "brand":request.form.get("brand"),
-            "gtr_type":request.form.get("gtr_type"),
-            "pickup_config":request.form.get("pickup_config"),
-            "rating":request.form.get("rating"),
-            "comment":request.form.get("comment"),
-            "user_id":user
-        })
-        return render_template("guitars.html")
-    except:
-        print("No user logged in")
-        return redirect("/index")
+
+    #Insert the guitar data from the form into guitars collection
+    guitars.insert_one({
+        "gtr_name":request.form.get("gtr_name"),
+        "brand":request.form.get("brand"),
+        "gtr_type":request.form.get("gtr_type"),
+        "pickup_config":request.form.get("pickup_config"),
+        "rating":request.form.get("rating"),
+        "comment":request.form.get("comment"),
+        "user_id":ObjectId(session["user_id"])
+    })
+    return render_template("guitars.html", user=user)
     
 
 @app.route("/poll")
