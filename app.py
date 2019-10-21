@@ -42,11 +42,13 @@ def get_user():
 
 @app.route("/edit_user", methods=["GET", "POST"])
 def edit_user():
-    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-    user_name = user["user_name"]
-    first_name = user["first_name"]
-    surname = user["surname"]
-    return render_template("edit-user.html", user_name=user_name, first_name=first_name, surname=surname)
+    try:
+        user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+        return render_template("edit-user.html", user=user)
+    except:
+        print("No user logged in")
+        return redirect("/index")
+
 
 
 @app.route("/update_user", methods=["POST"])

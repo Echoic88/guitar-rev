@@ -4,18 +4,23 @@
 <h2>Edit User Details</h2>
 
 <div class="row">
+    <h4>{% if user is none %}
+            Please Log In
+        {% else %}
+            Hi {{ user.user_name }}
+        {% endif %}
+    </h4>
+</div>
+
+<div class="row">
     <form class="col s12" action="{{ url_for('update_user') }}" method="POST">
         <div class="row">
             <div class="input-field">
-                <input name="user_name" id="user_name_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" value="{{ user_name }}" disabled>
-                <label for="user_name">Username: </label>
-            </div>
-            <div class="input-field">
-                <input name="first_name" id="first_name_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" value="{{ first_name }}" required>
+                <input name="first_name" id="first_name_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" value="{{ user.first_name }}" required>
                 <label for="first_name_out">First Name: </label>
             </div>
             <div class="input-field">
-                <input name="surname" id="surname_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" value="{{ surname }}" required>
+                <input name="surname" id="surname_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" value="{{ user.surname }}" required>
                 <label for="surname">Surname: </label>
             </div>
         </div>
