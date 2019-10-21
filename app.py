@@ -76,9 +76,9 @@ def guitars():
     Navigate to guitars.html
     """
     user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-    guitars = mongo.db.guitars
+    guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
 
-    return render_template("guitars.html", guitars=guitars.find(), user=user)
+    return render_template("guitars.html", guitars=guitars, user=user)
 
 
 @app.route("/guitars_form")
@@ -91,16 +91,16 @@ def guitars_form():
     return render_template("guitars-form.html", user=user)
 
 
-@app.route("/input_guitar", methods=["GET","POST"])
+@app.route("/input_guitar", methods=["POST"])
 def input_guitar():
     """
     Insert details from the guitars_form to a new
-    DB entry in guitars and users collections
+    DB entry in guitars collections
     """
     user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-    guitars = mongo.db.guitars 
+    guitars = mongo.db.guitars
 
-    #Insert the guitar data from the form into guitars collection
+    #Insert the guitar data from the form and user id into guitars collection
     guitars.insert_one({
         "gtr_name":request.form.get("gtr_name"),
         "brand":request.form.get("brand"),
