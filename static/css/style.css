@@ -10,6 +10,16 @@ h2  {
     color: #be2626;
 }
 
+.guitar-image-wrapper  {
+    height:50px;
+    width:50px;
+}
+
+.guitar-image  {
+    max-height: 150px;
+    max-width: 150px;
+}
+
 footer  {
     background-color: #be2626;
 }

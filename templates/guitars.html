@@ -15,7 +15,18 @@
 <a href="{{ url_for('guitars_form') }}" class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Tell us about your guitar!</a>
 
     {% for guitar in guitars %}
-        <p>{{guitar.gtr_name}} - {{guitar.rating}}</p>
+        <h3>{{ guitar.gtr_name }}</h3>
+            <div class="gtr-image-wrapper">
+                {% if guitar.image_url is none or guitar.image_url=="" %}
+                    <img class="guitar-image" src="static\images\randy.jpg">
+                {% else %}
+                    <img class="guitar-image" src="https://smallguitars.com/catalog/images/colors/medium/90-JL_small_mini_quarter_electric_guitar_for_small_kids_and_travel_cherryburst.jpg">
+                {% endif %}
+            </div>
+        <p>Brand: {{guitar.brand}}</p>
+        <p>Guitar Type: {{guitar.tpye}}</p>
+        <p>Player Rating {{guitar.rating}}</p>
+        <p>Player Comment {{guitar.comment}}</p>
     {% endfor %}
 
 {% endblock %}

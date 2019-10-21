@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, Markup
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
  
@@ -105,9 +105,9 @@ def input_guitar():
         "gtr_name":request.form.get("gtr_name"),
         "brand":request.form.get("brand"),
         "gtr_type":request.form.get("gtr_type"),
-        "pickup_config":request.form.get("pickup_config"),
         "rating":request.form.get("rating"),
         "comment":request.form.get("comment"),
+        "image_url":request.form.get("image_url"),
         "user_id":ObjectId(session["user_id"])
     })
     return render_template("guitars.html", user=user)
