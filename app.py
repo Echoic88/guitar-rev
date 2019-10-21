@@ -16,7 +16,11 @@ def index():
     """ 
     Navigate to home page
     """
-    return render_template("index.html")
+    try:
+        user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
+        return render_template("index.html", user=user)
+    except:
+        return render_template("index.html", user=user)
 
 
 @app.route("/get_user", methods=["GET", "POST"])
