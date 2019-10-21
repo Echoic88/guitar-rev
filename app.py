@@ -26,14 +26,10 @@ def get_user():
     """
     user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
     
-    try:
-        user_name = user["user_name"]
-        first_name = user["first_name"]
-        surname = user["surname"]
-        
+    try:       
         #Add user id to session cookie to navigate between pages
         session["user_id"] = str(user["_id"])
-        return render_template("index.html", user_name=user_name, first_name=first_name, surname=surname)
+        return render_template("index.html", user=user)
 
     except:
         print("NO SUCH USER")
@@ -74,8 +70,10 @@ def guitars():
     """
     Navigate to guitars.html
     """
+    user = users.find_one({"_id":ObjectId(session["user_id"])})
     guitars = mongo.db.guitars
-    return render_template("guitars.html", guitars=guitars.find())
+
+    return render_template("guitars.html", guitars=guitars.find(), user=user)
 
 
 @app.route("/guitars_form")
@@ -93,30 +91,26 @@ def input_guitar():
     Insert details from the guitars_form to a new
     DB entry in guitars and users collections
     """
-    guitars = mongo.db.guitars
-    users = mongo.db.users
-
-    user=users.find_one({"_id":ObjectId(session["user_id"])})
+    user = users.find_one({"_id":ObjectId(session["user_id"])})
+    guitars = mongo.db.guitars 
     
-    #Insert the guitar data from the form into guitars collection
-    #return the newly created guitar object id to variable gtr_id
-    gtr_id = guitars.insert_one({
+    try:
+        #Insert the guitar data from the form into guitars collection
+        #return the newly created guitar object id to variable gtr_id
+        guitars.insert_one({
             "gtr_name":request.form.get("gtr_name"),
             "brand":request.form.get("brand"),
             "gtr_type":request.form.get("gtr_type"),
             "pickup_config":request.form.get("pickup_config"),
             "rating":request.form.get("rating"),
-            "comment":request.form.get("comment")
-        }).inserted_id
-
-    #Add the guitar name from the form and the newly created guitar id to 
-    #the object containing the users guitars
-
-    loc = "user_guitars"+"."+request.form.get("gtr_name")
-    mongo.db.users.update_one(user, {"$set":{loc:gtr_id}})
-
-    return render_template("guitars.html")
-
+            "comment":request.form.get("comment"),
+            "user_id":user
+        })
+        return render_template("guitars.html")
+    except:
+        print("NO SUCH USER")
+        return redirect("/index")
+    
 
 @app.route("/poll")
 def poll():
