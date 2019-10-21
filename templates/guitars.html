@@ -20,7 +20,7 @@
                 {% if guitar.image_url is none or guitar.image_url=="" %}
                     <img class="guitar-image" src="static\images\randy.jpg">
                 {% else %}
-                    <img class="guitar-image" src="https://smallguitars.com/catalog/images/colors/medium/90-JL_small_mini_quarter_electric_guitar_for_small_kids_and_travel_cherryburst.jpg">
+                    <img class="guitar-image" src= "{{ guitar.image_url }}">
                 {% endif %}
             </div>
         <p>Brand: {{guitar.brand}}</p>
