@@ -50,7 +50,6 @@ def edit_user():
         return redirect("/index")
 
 
-
 @app.route("/update_user", methods=["POST"])
 def update_user():
     """
@@ -67,8 +66,8 @@ def delete_user():
     """
     Delete the current user
     """
-    mongo.db.users.remove({"_id":ObjectId(session["user_id"])})
-    return redirect("index.html")
+    mongo.db.users.delete_one({"_id":ObjectId(session["user_id"])})
+    return redirect("/index")
 
 
 @app.route("/guitars")
