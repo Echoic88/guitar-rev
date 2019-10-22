@@ -23,6 +23,23 @@ def index():
         return render_template("index.html", user=user)
 
 
+@app.route("/register")
+def register():
+    """
+    Navigate to registration form for new users
+    """
+    return render_template("register.html")
+
+
+@app.route("/register_user", methods=["POST"])
+def register_user():
+    """
+    Create new user from register user form
+    """
+    mongo.db.users.insert_one(request.form.to_dict())
+    return render_template("register.html")
+
+
 @app.route("/get_user", methods=["GET", "POST"])
 def get_user():
     """
@@ -105,7 +122,7 @@ def input_guitar():
         "gtr_name":request.form.get("gtr_name"),
         "brand":request.form.get("brand"),
         "gtr_type":request.form.get("gtr_type"),
-        "rating":request.form.get("rating"),
+        "rating":int(request.form.get("rating")),
         "comment":request.form.get("comment"),
         "image_url":request.form.get("image_url"),
         "user_id":ObjectId(session["user_id"])
@@ -127,26 +144,26 @@ def submit_vote():
     Add vote results to individual collections in DB for results 
     """
     vote = request.form.get("vote")
-    mongo.db[vote].insert_one({"vote":vote})
+    mongo.db.total_votes.insert_one({"vote":vote})
     return render_template("poll.html")
 
 
-@app.route("/register")
-def register():
+@app.route("/poll_results")
+def poll_results():
     """
-    Navigate to registration form for new users
+    Display poll results when Vew Results button is pressed
     """
-    return render_template("register.html")
+    results = mongo.db.total_votes
+    get_votes=[{"$group": {"_id":"$vote", "number_of_votes":{"$sum":1}}}] 
+    votes_per_guitar = list(results.aggregate(get_votes))
+    
+    #convert aggregated vote results to dictionary
+    votes_dict = {}
+    for i in range(len(votes_per_guitar)):
+        votes_dict[votes_per_guitar[i]["_id"]] = votes_per_guitar[i]["number_of_votes"]
 
-
-@app.route("/register_user", methods=["POST"])
-def register_user():
-    """
-    Create new user from register user form
-    """
-    mongo.db.users.insert_one(request.form.to_dict())
-    return render_template("register.html")
-
+    return render_template("poll-results.html", results=votes_dict)
+    
 
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
