@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, request, flash, session, Markup
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
  
