@@ -57,6 +57,15 @@ def get_user():
         return redirect("/index")
 
 
+@app.route("/logout", methods=["POST"])
+def logout():
+    """
+    Logout User
+    """
+    session["user_id"] = ""
+    return redirect("/index")
+
+
 @app.route("/edit_user", methods=["GET", "POST"])
 def edit_user():
     try:
