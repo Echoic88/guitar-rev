@@ -2,11 +2,25 @@ import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+import json
+import cloudinary
+import cloudinary.utils
+import cloudinary.uploader
+
  
 app = Flask(__name__)
 app.config["MONGODB_NAME"] = "guitarReview"
 app.config["MONGO_URI"] = os.getenv("mongoURI")
 app.secret_key = os.getenv("sessionKey")
+
+#cloudinary.config["CLOUDINARY_URL"] = os.getenv("cloudKey")
+
+cloudinary.config.update = ({
+    'cloud_name':os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'api_key': os.environ.get('CLOUDINARY_API_KEY'),
+    'api_secret': os.environ.get('CLOUDINARY_API_SECRET')
+})
+
 mongo = PyMongo(app)
 
 
@@ -20,7 +34,8 @@ def index():
         user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
         return render_template("index.html", user=user)
     except:
-        return render_template("index.html", user=user)
+        session["user_id"] = str("")
+        return render_template("index.html")
 
 
 @app.route("/register")
@@ -101,11 +116,21 @@ def guitars():
     """
     Navigate to guitars.html
     """
-    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-    guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
+    if session["user_id"] is None or session["user_id"] =="":
+        return redirect("/index")
 
-    return render_template("guitars.html", guitars=guitars, user=user)
+    else:
 
+        try:
+            #try to find the user in the db
+            user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+            guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
+            return render_template("guitars.html", guitars=guitars, user=user)
+
+        except:
+            #if no user then return to home page
+            return render_template("index.html")
+            
 
 @app.route("/guitars_form")
 def guitars_form():
@@ -126,6 +151,17 @@ def input_guitar():
     user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
     guitars = mongo.db.guitars
 
+    if request.method == 'POST': 
+        
+        img = request.files["image_id"]
+        print(img_name)
+
+    cloudinary.uploader.upload(
+        (img)
+    )
+
+
+
     #Insert the guitar data from the form and user id into guitars collection
     guitars.insert_one({
         "gtr_name":request.form.get("gtr_name"),
@@ -133,10 +169,10 @@ def input_guitar():
         "gtr_type":request.form.get("gtr_type"),
         "rating":int(request.form.get("rating")),
         "comment":request.form.get("comment"),
-        "image_url":request.form.get("image_url"),
+        "image_id":request.form.get("image_id"),
         "user_id":ObjectId(session["user_id"])
     })
-    return render_template("guitars.html", user=user)
+    return redirect("/guitars")
     
 
 @app.route("/poll")
@@ -168,11 +204,11 @@ def poll_results():
     
     #convert aggregated vote results to dictionary
     votes_dict = {}
+    data = [1,2,3]
+
     for i in range(len(votes_per_guitar)):
         votes_dict[votes_per_guitar[i]["_id"]] = votes_per_guitar[i]["number_of_votes"]
-
     return render_template("poll-results.html", results=votes_dict)
     
-
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
