@@ -14,19 +14,22 @@
 
 <a href="{{ url_for('guitars_form') }}" class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Tell us about your guitar!</a>
 
+ 
     {% for guitar in guitars %}
         <h3>{{ guitar.gtr_name }}</h3>
             <div class="gtr-image-wrapper">
-                {% if guitar.image_url is none or guitar.image_url=="" %}
+                {% if guitar.image_id is none or guitar.image_id=="" %}
                     <img class="guitar-image" src="static\images\randy.jpg">
                 {% else %}
-                    <img class="guitar-image" src= "{{ guitar.image_url }}">
+                    <img class="guitar-image" src= "{{ guitar.image_id }}">
                 {% endif %}
             </div>
         <p>Brand: {{guitar.brand}}</p>
         <p>Guitar Type: {{guitar.gtr_type}}</p>
-        <p>Player Rating {{guitar.rating}}</p>
-        <p>Player Comment {{guitar.comment}}</p>
+        <p>Player Rating: {{guitar.rating}}</p>
+        <p>Player Comment: {{guitar.comment}}</p>
+        <p>Guitar ID: {{guitar.image_id}}</p>
     {% endfor %}
+    
 
 {% endblock %}

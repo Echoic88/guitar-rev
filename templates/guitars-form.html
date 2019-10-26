@@ -13,7 +13,7 @@
 </div>
 
 <div class="row">
-    <form class="col s12" action="{{ url_for('input_guitar') }}" method="POST">
+    <form class="col s12" action="{{ url_for('input_guitar') }}" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="input-field col">
                 <input name="gtr_name" id="gtr_name" type="text" autocomplete="false" required>
@@ -45,8 +45,8 @@
         </div>
         <div class="row">
             <div class="input-field col">
-                <input name="image_url" id="image_url" type="text" autocomplete="false">
-                <label for="upload_image">Enter image url</label>
+                <label for="upload_image">Upload image</label>
+                <input name="image_id" id="image_id" type="file" accept = ".jpg,.jpeg,.png">           
             </div>
         </div>
         <div class="row">

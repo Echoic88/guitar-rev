@@ -112,6 +112,13 @@ def delete_user():
     return redirect("/index")
 
 
+
+
+
+
+
+
+
 @app.route("/guitars")
 def guitars():
     """
@@ -121,17 +128,23 @@ def guitars():
         return redirect("/index")
 
     else:
-
         try:
             #try to find the user in the db
             user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
             guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
+            
             return render_template("guitars.html", guitars=guitars, user=user)
 
         except:
             #if no user then return to home page
             return render_template("index.html")
             
+
+
+
+
+
+
 
 @app.route("/guitars_form")
 def guitars_form():
@@ -151,18 +164,20 @@ def input_guitar():
     """
     user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
     guitars = mongo.db.guitars
+        
 
     if request.method == 'POST': 
         
         img = request.files["image_id"]
-        #the image id will be the ObjectID for the user in Mongo DB conctatenated with
+        #the image id will be the ObjectID for the user in Mongo DB concatenated with
         #a random number 
         img_id = str(session["user_id"])+"-"+str(random.randint(1, 9999999))
-        print(img_id)
 
     cloudinary.uploader.upload(
         img, public_id = img_id
     )
+
+    img_url = cloudinary.utils.cloudinary_url(img_id)
 
 
     #Insert the guitar data from the form and user id into guitars collection
@@ -172,7 +187,8 @@ def input_guitar():
         "gtr_type":request.form.get("gtr_type"),
         "rating":int(request.form.get("rating")),
         "comment":request.form.get("comment"),
-        "image_id":img_id,
+        "image_id":img_url[0],
+        #"image_id": img_id, try and use this later
         "user_id":ObjectId(session["user_id"])
     })
     
