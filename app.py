@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash, ses
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import json
+import random
 import cloudinary
 import cloudinary.utils
 import cloudinary.uploader
@@ -154,12 +155,14 @@ def input_guitar():
     if request.method == 'POST': 
         
         img = request.files["image_id"]
-        print(img_name)
+        #the image id will be the ObjectID for the user in Mongo DB conctatenated with
+        #a random number 
+        img_id = str(session["user_id"])+"-"+str(random.randint(1, 9999999))
+        print(img_id)
 
     cloudinary.uploader.upload(
-        (img)
+        img, public_id = img_id
     )
-
 
 
     #Insert the guitar data from the form and user id into guitars collection
@@ -169,9 +172,10 @@ def input_guitar():
         "gtr_type":request.form.get("gtr_type"),
         "rating":int(request.form.get("rating")),
         "comment":request.form.get("comment"),
-        "image_id":request.form.get("image_id"),
+        "image_id":img_id,
         "user_id":ObjectId(session["user_id"])
     })
+    
     return redirect("/guitars")
     
 
