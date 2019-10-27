@@ -7,10 +7,11 @@
     <form class="col s12" action="{{ url_for('register_user') }}" method="POST">
         <div class="row">
             <div class="input-field col">
-                <input name="user_name" id="user_name" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" required>
-                <label for="user_name">Username: <span>
-                        <muted>(Letters and numbers only)</muted>
-                    </span></label>
+                <input name="user_name" id="user_name" type="email" autocomplete="false" required>
+                <label for="user_name">Username(Email):</label>
+                    <p class="email-warning">
+                        DO NOT ENTER ACTUAL EMAIL - NOT ENCRYPTED IN DATABASE- Email used only for user id purposes
+                    </p>
             </div>
         </div>
         <div class="row">

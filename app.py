@@ -34,7 +34,7 @@ def index():
         return render_template("index.html", user=user)
     except:
         session["user_id"] = str("")
-        return render_template("index.html")
+        return render_template("index.html", page_title = "Home")
 
 
 @app.route("/register")
@@ -42,7 +42,7 @@ def register():
     """
     Navigate to registration form for new users
     """
-    return render_template("register.html")
+    return render_template("register.html", page_title = "Register")
 
 
 @app.route("/register_user", methods=["POST"])
@@ -54,7 +54,7 @@ def register_user():
         name = request.form.get("first_name")
         mongo.db.users.insert_one(request.form.to_dict())
         flash("You are now registered")
-        return render_template("register.html")
+        return render_template("register.html", page_title = "Register")
 
 
 @app.route("/get_user", methods=["GET", "POST"])
@@ -71,7 +71,7 @@ def get_user():
 
     except:
         print("NO SUCH USER")
-        return render_template("/index")
+        return redirect("/index")
 
 
 @app.route("/logout", methods=["POST"])
@@ -104,7 +104,7 @@ def update_user():
                                                             {"first_name":request.form.get("first_name"),
                                                             "surname":request.form.get("surname")}})
         flash("Details updated")
-        return render_template("edit-user.html", user=user)
+        return render_template("edit-user.html", user=user, page_title = "Edit Details")
 
 
 @app.route("/delete_user")
@@ -116,7 +116,7 @@ def delete_user():
         user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
         mongo.db.users.delete_one({"_id":ObjectId(session["user_id"])})
         flash("Sorry to see you go")
-        return render_template("index.html", user = None)
+        return render_template("index.html", user = None, page_title = "Home")
 
 
 @app.route("/guitars")
@@ -128,7 +128,7 @@ def guitars():
     try:
         user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
         guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
-        return render_template("guitars.html", guitars=guitars, user=user)
+        return render_template("guitars.html", guitars=guitars, user=user, page_title = "Your Guitars")
 
     except:
         #if no user then return to home page
@@ -142,7 +142,7 @@ def guitars_form():
     pressed navigate to guitars form 
     """
     user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-    return render_template("guitars-form.html", user=user)
+    return render_template("guitars-form.html", user=user, page_title = "New Guitar")
 
 
 @app.route("/input_guitar", methods=["POST"])
@@ -188,7 +188,7 @@ def poll():
     """
     Navigate to poll.html
     """
-    return render_template("poll.html")
+    return render_template("poll.html", page_title = "2019 Poll")
 
 
 @app.route("/submit_vote", methods=["POST"])
@@ -198,7 +198,7 @@ def submit_vote():
     """
     vote = request.form.get("vote")
     mongo.db.total_votes.insert_one({"vote":vote})
-    return render_template("poll.html")
+    return render_template("poll.html", page_title = "2019 Poll")
 
 
 @app.route("/poll_results")
@@ -210,16 +210,14 @@ def poll_results():
     get_votes=[{"$group": {"_id":"$vote", "number_of_votes":{"$sum":1}}}]
     votes_per_guitar = list(results.aggregate(get_votes))
 
-    #convert aggregated vote results to dictionary
-    
 
     #get individual results
     votes_dict = {}
     for i in range(len(votes_per_guitar)):
         votes_dict[votes_per_guitar[i]["_id"]] = votes_per_guitar[i]["number_of_votes"]
     
-    
-    return render_template("poll-results.html", results=votes_dict, resList=json.dumps(votes_per_guitar))
+
+    return render_template("poll-results.html", results=votes_dict, resList=json.dumps(votes_per_guitar), page_title = "Poll Results")
     
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)

@@ -14,23 +14,26 @@ h2  {
     color: #be2626;
 }
 
-
 .guitar-image  {
     max-height: 150px;
     max-width: 150px;
 }
 
-.footer  {
-    background-color: #be2626;
-    bottom:0;
-    position: absolute;
-    width:100vw;
+.email-warning  {
+    background-color:red;
+    color:white
 }
-
 
 /* in poll results */
-#input  {
-    background-color:blue;
-    height:100px;
-    width:100px
+#pollChart  {
+    background-color:yellow;
+    border: 1px solid black;
+    height:500px;
+    width:500px;
 }
+
+/*
+#resList  {
+    visibility:hidden;
+}
+*/
