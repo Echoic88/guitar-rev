@@ -1,3 +1,9 @@
+/* --------- Utility -------------*/
+.m-auto  {
+    margin:auto;
+}
+
+
 html, body  {
     background-color: #d0d3d3;
     min-height:100%;
@@ -6,9 +12,7 @@ html, body  {
 .container  {
     min-height:100vh;
 }
-header  {
-    background-color: #a06f2f;
-}
+
 
 h2  {
     color: #be2626;
@@ -19,9 +23,9 @@ h2  {
     max-width: 150px;
 }
 
-.email-warning  {
-    background-color:red;
-    color:white
+.home-page  {
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
 /* in poll results */
