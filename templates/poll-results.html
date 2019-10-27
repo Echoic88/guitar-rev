@@ -1,29 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Poll Results:</h1>
+<div class="row">
+    <h1 class="center-align">Poll Results</h1>
+</div>
 
-<main>
-
-    {% for result, num_votes in results.items() %}
+{% for result, num_votes in results.items() %}
+<div class="row border2">
     <p>
-        {{ num_votes }} - 
+        {{ num_votes }} -
         {% if result == "vote_lespaul" %}
-            Les Paul Votes
+        Les Paul Votes
         {% elif result == "vote_strat" %}
-            Strat Votes
+        Strat Votes
         {% elif result == "vote_xguitar" %}
-            X-Guitar Votes
+        X-Guitar Votes
         {% endif %}
     </p>
-    {% endfor %}
+</div>
 
-    <div id="pollChart">
+{% endfor %}
+<div class="container">
+    <div class="row border1">
+        <div class="col s12">
+            <div id="pollChart" class="poll-chart"></div>
+        </div>
     </div>
+</div>
 
 
+<div class="row">
     <div id="resList">
         {{ resList }}
     </div>
+</div>
 
-</main>
+
 {% endblock %}

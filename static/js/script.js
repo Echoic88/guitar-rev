@@ -9,7 +9,6 @@ $(document).ready(function () {
 
     let thisPage = $(location).attr("href")
     let thisPageLast = thisPage.substring(thisPage.length-7, thisPage.length)
-    console.log(thisPageLast); 
 
     if (thisPageLast === "results") {
         //get data for graph from hidden div - NOT IDEAL 
@@ -26,14 +25,16 @@ $(document).ready(function () {
         let votesDim = guitarDim.group().reduceSum(dc.pluck("number_of_votes"));
 
         dc.barChart("#pollChart")
-            .width(300)
-            .height(150)
+            //.width(300)
+            //.height(150)
+            /*
             .margins({
                 top: 10,
                 right: 50,
                 bottom: 30,
                 left: 50
             })
+            */
             .dimension(guitarDim)
             .group(votesDim)
             .transitionDuration(500)

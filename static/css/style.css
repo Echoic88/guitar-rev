@@ -1,51 +1,58 @@
-html, body  {
+html,
+body {
     background-color: #d0d3d3;
-    min-height:100%;
-}
-
-.container  {
-    min-height:100vh;
+    min-height: 100%;
 }
 
 
-h2, h3  {
+/*-------------- Utility ------------ */
+.border1 {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 1% 0;
+    padding: 3%;
+}
+
+
+.border2 {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 1% 0;
+    padding: 2%;
+}
+
+.container {
+    min-height: 100vh;
+}
+
+h2,
+h3 {
     color: #be2626;
 }
 
-.guitar-image  {
+.guitar-image {
     max-height: 150px;
     max-width: 150px;
 }
 
-.home-page  {
-    border: 1px solid black;
-    border-radius: 10px;
-}
 
-
-.user-guitars  {
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 20px 0;   
-}
-
-.vote-for  {
+.vote-for {
     border: 1px solid black;
     border-radius: 10px;
     margin: 10vh 0;
 }
 
-.vote-button  {
-    width:80%;
+.vote-button {
+    width: 80%;
 }
 
-/* in poll results */
-#pollChart  {
-    background-color:yellow;
+.poll-chart {
+    margin: auto;
+    background-color: rgb(243, 255, 215);
     border: 1px solid black;
-    height:500px;
-    width:500px;
+    height: 100%;
 }
+
 
 /*
 #resList  {
