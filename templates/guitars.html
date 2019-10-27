@@ -1,37 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2> Guitar List </h2>
-
-<div class="row">
-    <h4>{% if user is none %}
+<h2 class="center-align"> Guitar List </h2>
+<div class="container">
+    <div class="row">
+        <h4 class="center-align">{% if user is none %}
             Please Log In
-        {% else %}
+            {% else %}
             Hi {{ user.user_name }}
-        {% endif %}
-    </h4>
-</div>
+            {% endif %}
+        </h4>
+    </div>
+    <div class="row center-align">
+        <a href="{{ url_for('guitars_form') }}" class="waves-effect waves-light btn-large">Add guitar</a>
 
-<a href="{{ url_for('edit_user') }}" class="waves-effect waves-light btn-large">
-        <i class="material-icons left">cloud</i>Edit User</a>
-
-<a href="{{ url_for('guitars_form') }}" class="waves-effect waves-light btn-large"><i class="material-icons left">cloud</i>Tell us about your guitar!</a>
-
- 
-    {% for guitar in guitars %}
-        <h3>{{ guitar.gtr_name }}</h3>
+        <a href="{{ url_for('edit_user') }}" class="waves-effect waves-light orange darken-3 btn-large">Edit your
+            details</a>
+    </div>
+    <div class="row center-align">
+        {% for guitar in guitars %}
+        <div class="col s12 user-guitars">
+            <h3>{{ guitar.gtr_name }}</h3>
             <div class="gtr-image-wrapper">
                 {% if guitar.image_id is none or guitar.image_id=="" %}
-                    <img class="guitar-image" src="static\images\randy.jpg">
+                <img class="guitar-image" src="static\images\randy.jpg">
                 {% else %}
-                    <img class="guitar-image" src= "{{ guitar.image_id }}">
+                <img class="guitar-image" src="{{ guitar.image_id }}">
                 {% endif %}
             </div>
-        <p>Brand: {{guitar.brand}}</p>
-        <p>Guitar Type: {{guitar.gtr_type}}</p>
-        <p>Player Rating: {{guitar.rating}}</p>
-        <p>Player Comment: {{guitar.comment}}</p>
-    {% endfor %}
-    
+            <p>Brand: {{guitar.brand}}</p>
+            <p>Guitar Type: {{guitar.gtr_type}}</p>
+            <p>Player Rating: {{guitar.rating}}</p>
+            <p>Player Comment: {{guitar.comment}}</p>
+        </div>
+        {% endfor %}
 
+    </div>
+</div>
 {% endblock %}
