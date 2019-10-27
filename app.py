@@ -124,8 +124,6 @@ def guitars():
     """
     Navigate to guitars.html
     """
-    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-    guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
 
     try:
         user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
@@ -134,7 +132,7 @@ def guitars():
 
     except:
         #if no user then return to home page
-        return render_template("index.html")
+        return redirect("/index")
         
 
 @app.route("/guitars_form")
