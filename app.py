@@ -14,8 +14,6 @@ app.config["MONGODB_NAME"] = "guitarReview"
 app.config["MONGO_URI"] = os.getenv("mongoURI")
 app.secret_key = os.getenv("sessionKey")
 
-#cloudinary.config["CLOUDINARY_URL"] = os.getenv("cloudKey")
-
 cloudinary.config.update = ({
     'cloud_name':os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'api_key': os.environ.get('CLOUDINARY_API_KEY'),
@@ -24,13 +22,13 @@ cloudinary.config.update = ({
 
 mongo = PyMongo(app)
 
-
 @app.route("/")
 @app.route("/index")
 def index():
     """ 
     Navigate to home page
     """
+
     try:
         user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
         return render_template("index.html", user=user)
@@ -59,18 +57,18 @@ def register_user():
 @app.route("/get_user", methods=["GET", "POST"])
 def get_user():
     """
-    Retrieve user details
+    Retrieve user details and route to guitars page
     """
     user = mongo.db.users.find_one({"user_name":request.form.get("user_name")})
     
     try:       
         #Add user id to session cookie to navigate between pages
         session["user_id"] = str(user["_id"])
-        return render_template("index.html", user=user)
+        return redirect("/guitars")
 
     except:
         print("NO SUCH USER")
-        return redirect("/index")
+        return render_template("/index")
 
 
 @app.route("/logout", methods=["POST"])
@@ -97,10 +95,13 @@ def update_user():
     """
     Update user details in DB
     """
-    mongo.db.users.update_one({"_id":ObjectId(session["user_id"])}, {"$set": 
-                                                        {"first_name":request.form.get("first_name"),
-                                                        "surname":request.form.get("surname")}})
-    return render_template("index.html")
+    if request.method == "POST":
+        user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+        mongo.db.users.update_one({"_id":ObjectId(session["user_id"])}, {"$set": 
+                                                            {"first_name":request.form.get("first_name"),
+                                                            "surname":request.form.get("surname")}})
+        flash("Details updated")
+        return render_template("edit-user.html", user=user)
 
 
 @app.route("/delete_user")
@@ -109,14 +110,7 @@ def delete_user():
     Delete the current user
     """
     mongo.db.users.delete_one({"_id":ObjectId(session["user_id"])})
-    return redirect("/index")
-
-
-
-
-
-
-
+    return render_template("edit_user.html")
 
 
 @app.route("/guitars")
@@ -124,27 +118,18 @@ def guitars():
     """
     Navigate to guitars.html
     """
-    if session["user_id"] is None or session["user_id"] =="":
-        return redirect("/index")
+    user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+    guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
 
-    else:
-        try:
-            #try to find the user in the db
-            user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
-            guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
-            
-            return render_template("guitars.html", guitars=guitars, user=user)
+    try:
+        user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+        guitars = mongo.db.guitars.find({"user_id":ObjectId(session["user_id"])})
+        return render_template("guitars.html", guitars=guitars, user=user)
 
-        except:
-            #if no user then return to home page
-            return render_template("index.html")
-            
-
-
-
-
-
-
+    except:
+        #if no user then return to home page
+        return render_template("index.html")
+        
 
 @app.route("/guitars_form")
 def guitars_form():
@@ -219,16 +204,21 @@ def poll_results():
     Display poll results when Vew Results button is pressed
     """
     results = mongo.db.total_votes
-    get_votes=[{"$group": {"_id":"$vote", "number_of_votes":{"$sum":1}}}] 
+    get_votes=[{"$group": {"_id":"$vote", "number_of_votes":{"$sum":1}}}]
     votes_per_guitar = list(results.aggregate(get_votes))
-    
-    #convert aggregated vote results to dictionary
-    votes_dict = {}
-    data = [1,2,3]
 
+    #convert aggregated vote results to dictionary
+    
+    
+
+
+    #get individual results
+    votes_dict = {}
     for i in range(len(votes_per_guitar)):
         votes_dict[votes_per_guitar[i]["_id"]] = votes_per_guitar[i]["number_of_votes"]
-    return render_template("poll-results.html", results=votes_dict)
+    
+    
+    return render_template("poll-results.html", results=votes_dict, resList=json.dumps(votes_per_guitar))
     
 if __name__ == "__main__":
     app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
