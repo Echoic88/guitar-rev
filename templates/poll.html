@@ -1,39 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<h1> Poll Heading </h1>
-
-<h2>Which of this year's guitars are you most excited about?!?!</h2>
-
-<main>
-
-
-    <form id="voteForm" action="{{ url_for('submit_vote') }}" method="POST">
-        <p>
-            <label>
-                <input class="with-gap" name="vote" id="stratVote" value="vote_strat" type="radio" />
-                <span>Vote Strat</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input class="with-gap" name="vote" id="lesPaulVote" value="vote_lespaul" type="radio" />
-                <span>Vote Les Paul</span>s
-            </label>
-        </p>
-        <p>
-            <label>
-                <input class="with-gap" name="vote" id="xGuitarVote" value="vote_xguitar" type="radio" />
-                <span>Vote X-Guitar</span>
-            </label>
-        </p>
-        <button id="voteButton" class="btn waves-effect waves-light" type="submit">Vote
-            <i class="material-icons right">send</i>
-        </button>
-    </form>
-
-    <a href="{{ url_for('poll_results') }}" class="waves-effect waves-light btn-large">
-        <i class="material-icons left">cloud</i>View Results</a>
-
-    
-</main>
+<div class="container">
+    <div class="row">
+        <h1 class="center-align"> 2019 Vote</h1>
+    </div>
+    <div class="row">
+        <h3 class="center-align">Which of this year's guitars are you most excited about?!?!</h3>
+    </div>
+    <div class="row">
+        <form id="voteForm" action="{{ url_for('submit_vote') }}" method="POST">
+            <p class="vote-for">
+                <label>
+                    <input class="with-gap" name="vote" id="stratVote" value="vote_strat" type="radio" />
+                    <span>Vote Strat</span>
+                </label>
+            </p>
+            <p class="vote-for">
+                <label>
+                    <input class="with-gap" name="vote" id="lesPaulVote" value="vote_lespaul" type="radio" />
+                    <span>Vote Les Paul</span>
+                </label>
+            </p>
+            <p class="vote-for">
+                <label>
+                    <input class="with-gap" name="vote" id="xGuitarVote" value="vote_xguitar" type="radio" />
+                    <span>Vote X-Guitar</span>
+                </label>
+            </p>
+            <div class="col s12 center-align">
+                <button id="voteButton" class="btn-large waves-effect waves-light vote-button"
+                    type="submit">Vote</button>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col s12 center-align">
+            <a href="{{ url_for('poll_results') }}" class="waves-effect waves-light btn-large grey darken-4">View
+                Results</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

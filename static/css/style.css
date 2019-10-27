@@ -8,7 +8,7 @@ html, body  {
 }
 
 
-h2  {
+h2, h3  {
     color: #be2626;
 }
 
@@ -27,6 +27,16 @@ h2  {
     border: 1px solid black;
     border-radius: 10px;
     margin: 20px 0;   
+}
+
+.vote-for  {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10vh 0;
+}
+
+.vote-button  {
+    width:80%;
 }
 
 /* in poll results */
