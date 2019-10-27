@@ -1,7 +1,11 @@
-body  {
-    background-color: #ffffe6;
+html, body  {
+    background-color: #d0d3d3;
+    min-height:100%;
 }
 
+.container  {
+    min-height:100vh;
+}
 header  {
     background-color: #a06f2f;
 }
@@ -10,16 +14,23 @@ h2  {
     color: #be2626;
 }
 
-.guitar-image-wrapper  {
-    height:50px;
-    width:50px;
-}
 
 .guitar-image  {
     max-height: 150px;
     max-width: 150px;
 }
 
-footer  {
+.footer  {
     background-color: #be2626;
+    bottom:0;
+    position: absolute;
+    width:100vw;
+}
+
+
+/* in poll results */
+#input  {
+    background-color:blue;
+    height:100px;
+    width:100px
 }

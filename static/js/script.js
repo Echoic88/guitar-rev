@@ -1,15 +1,22 @@
 $(document).ready(function () {
     $('.sidenav').sidenav();
 
+    //let results = $("#resList").text();
+    /*
+    document.getElementById("input").css("background-color", "red")
+
     //Make graph for poll results - dummy values below
     var results = [{
-            "guitar_name":"strat", "votes": 12
+            "guitar_name": "strat",
+            "votes": 12
         },
         {
-            "guitar_name":"lesPaul", "votes": 5
+            "guitar_name": "lesPaul",
+            "votes": 5
         },
         {
-            "guitar_name": "xguitar", "votes": 7
+            "guitar_name": "xguitar",
+            "votes": 7
         },
     ];
 
@@ -19,7 +26,7 @@ $(document).ready(function () {
     let guitar_dim = ndx.dimension(dc.pluck("guitar_name"));
     let votes_dim = guitar_dim.group().reduceSum(dc.pluck("votes"));
 
-        dc.barChart("#pollChart")
+    dc.barChart("#pollChart")
         .width(300)
         .height(150)
         .margins({
@@ -37,4 +44,5 @@ $(document).ready(function () {
         .yAxis().ticks(4);
 
     dc.renderAll();
+    */
 });

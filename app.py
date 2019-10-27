@@ -50,8 +50,11 @@ def register_user():
     """
     Create new user from register user form
     """
-    mongo.db.users.insert_one(request.form.to_dict())
-    return render_template("register.html")
+    if request.method == "POST":
+        name = request.form.get("first_name")
+        mongo.db.users.insert_one(request.form.to_dict())
+        flash("You are now registered")
+        return render_template("register.html")
 
 
 @app.route("/get_user", methods=["GET", "POST"])
@@ -109,8 +112,11 @@ def delete_user():
     """
     Delete the current user
     """
-    mongo.db.users.delete_one({"_id":ObjectId(session["user_id"])})
-    return render_template("edit_user.html")
+    if request.method == "POST":
+        user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
+        mongo.db.users.delete_one({"_id":ObjectId(session["user_id"])})
+        flash("Sorry to see you go")
+        return render_template("index.html", user = None)
 
 
 @app.route("/guitars")
@@ -152,7 +158,6 @@ def input_guitar():
         
 
     if request.method == 'POST': 
-        
         img = request.files["image_id"]
         #the image id will be the ObjectID for the user in Mongo DB concatenated with
         #a random number 
@@ -209,8 +214,6 @@ def poll_results():
 
     #convert aggregated vote results to dictionary
     
-    
-
 
     #get individual results
     votes_dict = {}

@@ -8,7 +8,9 @@
         <div class="row">
             <div class="input-field col">
                 <input name="user_name" id="user_name" type="text" autocomplete="false" pattern="[A-Za-z0-9]+" required>
-                <label for="user_name">Username: <span><muted>(Letters and numbers only)</muted></span></label>
+                <label for="user_name">Username: <span>
+                        <muted>(Letters and numbers only)</muted>
+                    </span></label>
             </div>
         </div>
         <div class="row">
@@ -29,6 +31,17 @@
             </button>
         </div>
     </form>
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="details-updated">
+            {% for message in messages %}
+            <p>{{ message }}<p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
 </div>
 
 {% endblock %}
