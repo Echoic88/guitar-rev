@@ -25,14 +25,20 @@ body {
     min-height: 100vh;
 }
 
+h1,
 h2,
-h3 {
-    color: #be2626;
+h3,
+h4 {
+    color: #e0e0e0;
 }
 
 .guitar-image {
     max-height: 150px;
     max-width: 150px;
+}
+
+.edit-button  {
+    width: 90%;
 }
 
 
