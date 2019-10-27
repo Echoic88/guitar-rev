@@ -74,7 +74,7 @@ def get_user():
         return redirect("/index")
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout")
 def logout():
     """
     Logout User
@@ -176,7 +176,6 @@ def input_guitar():
         "rating":int(request.form.get("rating")),
         "comment":request.form.get("comment"),
         "image_id":img_url[0],
-        #"image_id": img_id, try and use this later
         "user_id":ObjectId(session["user_id"])
     })
     
