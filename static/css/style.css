@@ -1,35 +1,58 @@
 html,
 body {
-    background-color: #d0d3d3;
+    background-color: #626b6b;
+    color: #f1e1dd;
+    margin:0;
     min-height: 100%;
 }
 
+.page-wrapper {
+    position: relative;
+    min-height: 100vh;
+  }
+
+.content-wrapper {
+    padding-bottom: 10vh;
+  }
 
 /*-------------- Utility ------------ */
 .border1 {
-    border: 1px solid black;
+    border: 1px solid rgb(238, 238, 238);
     border-radius: 10px;
-    margin: 1% 0;
+    margin: 1% 5%;
     padding: 3%;
 }
 
-
 .border2 {
-    border: 1px solid black;
+    border: 1px solid  rgb(238, 238, 238);
     border-radius: 10px;
-    margin: 1% 0;
+    margin: 1% 5%;
     padding: 2%;
 }
 
-.container {
-    min-height: 100vh;
+/*-----------------------------------------*/
+
+h3  {
+    font-size: 1.5 rem;
 }
 
-h1,
-h2,
-h3,
-h4 {
-    color: #e0e0e0;
+.nav-wrapper ul {
+    align-content: space-between;
+    display:flex;
+} 
+
+nav  {
+    background-color: #293391;
+}
+
+input, label {
+    color: #f1e1dd;
+}
+
+
+
+span {
+    color: #f1e1dd;
 }
 
 .guitar-image {
@@ -45,7 +68,6 @@ h4 {
 .vote-for {
     border: 1px solid black;
     border-radius: 10px;
-    margin: 10vh 0;
 }
 
 .vote-button {
@@ -59,6 +81,21 @@ h4 {
     height: 100%;
 }
 
+
+footer  {
+    align-items:center;
+    background-color:rgb(4, 101, 114);
+    bottom:0;
+    display:flex;
+    height: 10vh;
+    position:absolute;
+    width:100%;
+}
+
+footer h3  {
+    font-size: 2em;
+    margin:0;
+}
 
 /*
 #resList  {
