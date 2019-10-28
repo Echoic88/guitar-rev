@@ -217,4 +217,4 @@ def poll_results():
     return render_template("poll-results.html", results=votes_dict, resList=json.dumps(votes_per_guitar), page_title="Poll Results")
 
 if __name__ == "__main__":
-    app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)
+    app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=False)
