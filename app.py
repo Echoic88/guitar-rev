@@ -116,7 +116,8 @@ def delete_user():
         user = mongo.db.users.find_one({"_id":ObjectId(session["user_id"])})
         mongo.db.users.delete_one({"_id":ObjectId(session["user_id"])})
         flash("Sorry to see you go")
-        return render_template("index.html", user = None, page_title = "Home")
+    
+    return render_template("index.html", user = None, page_title = "Home")
 
 
 @app.route("/guitars")
@@ -155,7 +156,7 @@ def input_guitar():
     guitars = mongo.db.guitars
         
 
-    if request.method == 'POST': 
+    if request.method == 'POST':
         img = request.files["image_id"]
         #the image id will be the ObjectID for the user in Mongo DB concatenated with
         #a random number 
@@ -197,6 +198,7 @@ def submit_vote():
     """
     vote = request.form.get("vote")
     mongo.db.total_votes.insert_one({"vote":vote})
+    flash("Thanks for voting")
     return render_template("poll.html", page_title = "2019 Poll")
 
 
