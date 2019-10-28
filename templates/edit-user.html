@@ -1,54 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h2 class=" border1 orange darken-3">Edit User Details</h2>
-
-<div class="row">
-    <h4>
-        {% if user is none %}
-        Please Log In
-        {% else %}
-        Hi {{ user.user_name }}
-        {% endif %}
-    </h4>
-</div>
-
-<div class="row">
-    <form class="col s12" action="{{ url_for('update_user') }}" method="POST">
-        <div class="row">
-            <div class="input-field">
-                <input name="first_name" id="first_name_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+"
-                    value="{{ user.first_name }}" required>
-                <label for="first_name_out">First Name: </label>
+<div class="container">
+    <h2 class="center-align">Edit User Details</h2>
+    <div class="row">
+        <h4>
+            {% if user is none %}
+            Please Log In
+            {% else %}
+            Hi {{ user.user_name }}
+            {% endif %}
+        </h4>
+    </div>
+    <div class="row">
+        <form class="col s12" action="{{ url_for('update_user') }}" method="POST">
+            <div class="row">
+                <div class="input-field">
+                    <input name="first_name" id="first_name_out" type="text" autocomplete="off" pattern="[A-Za-z0-9]+"
+                        value="{{ user.first_name }}" required>
+                    <label for="first_name_out">First Name: </label>
+                </div>
+                <div class="input-field">
+                    <input name="surname" id="surname_out" type="text" autocomplete="off" pattern="[A-Za-z0-9]+"
+                        value="{{ user.surname }}" required>
+                    <label for="surname_out">Surname: </label>
+                </div>
             </div>
-            <div class="input-field">
-                <input name="surname" id="surname_out" type="text" autocomplete="false" pattern="[A-Za-z0-9]+"
-                    value="{{ user.surname }}" required>
-                <label for="surname">Surname: </label>
+            <div class="col s9">
+                <button class="btn waves-effect waves-light edit-button" type="submit">Edit</button>
             </div>
-        </div>
-        <div class="col s9">
-            <button class="btn waves-effect waves-light edit-button" type="submit">Edit</button>
-        </div>
-        <div class="col s3">
-            <a href="{{ url_for('delete_user') }}" class="waves-effect btn-small red darken-4">Delete User</a>
-        </div>
-    </form>
-
+            <div class="col s3">
+                <a href="{{ url_for('delete_user') }}" class="waves-effect btn-small red darken-4">Delete User</a>
+            </div>
+        </form>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="details-updated">
+        {% for message in messages %}
+            <p>{{ message }}<p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
 </div>
-
-
-
-
-
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="details-updated">
-    {% for message in messages %}
-    <p>{{ message }}<p>
-            {% endfor %}
-</div>
-{% endif %}
-{% endwith %}
 {% endblock %}

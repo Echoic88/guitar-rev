@@ -13,15 +13,15 @@
     <div class="row border1 center-align">
         <form class="col s12" action="{{ url_for('input_guitar') }}" method="POST" enctype="multipart/form-data">
             <div class="input-field">
-                <input name="gtr_name" id="gtr_name" type="text" autocomplete="false" required>
+                <input name="gtr_name" id="gtr_name" type="text" autocomplete="off" required>
                 <label for="gtr_name">Guitar</label>
             </div>
             <div class="input-field">
-                <input name="brand" id="brand" type="text" class="validate" autocomplete="false" required>
+                <input name="brand" id="brand" type="text" class="validate" autocomplete="off" required>
                 <label for="brand">Brand</label>
             </div>
             <div class="input-field">
-                <input name="gtr_type" id="gtr_type" type="text" class="validate" autocomplete="false" required>
+                <input name="gtr_type" id="gtr_type" type="text" class="validate" autocomplete="off" required>
                 <label for="gtr_type">Guitar Type</label>
             </div>
             <div class="input-field">

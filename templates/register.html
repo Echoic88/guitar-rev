@@ -1,45 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h2> Register </h2>
-
-<div class="row">
-    <form class="col s12" action="{{ url_for('register_user') }}" method="POST">
-        <div class="row">
-            <div class="input-field col">
-                <input name="user_name" id="user_name" type="text" autocomplete="false" required>
-                <label for="user_name">Username:</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col">
-                <input name="first_name" id="first_name" type="text" autocomplete="false" required>
-                <label for="first_name">First Name:</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col">
-                <input name="surname" id="surname" type="text" class="validate" autocomplete="false" required>
-                <label for="surname">Surname:</label>
-            </div>
-        </div>
-        <div class="row">
-            <button class="btn waves-effect waves-light" type="submit">Register
-                <i class="material-icons right">send</i>
-            </button>
-        </div>
-    </form>
+<div class="container">
+    <h2> Register </h2>
     <div class="row">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="details-updated">
-            {% for message in messages %}
-            <p>{{ message }}<p>
-            {% endfor %}
+        <form class="col s12" action="{{ url_for('register_user') }}" method="POST">
+            <div class="row">
+                <div class="input-field col">
+                    <input name="user_name" id="user_name" type="text" autocomplete="off" required>
+                    <label for="user_name">Username:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col">
+                    <input name="first_name" id="first_name" type="text" autocomplete="off" required>
+                    <label for="first_name">First Name:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col">
+                    <input name="surname" id="surname" type="text" class="validate" autocomplete="off" required>
+                    <label for="surname">Surname:</label>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light" type="submit">Register
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+        <div class="row">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <p>{{ message }}<p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
         </div>
-        {% endif %}
-        {% endwith %}
     </div>
 </div>
-
 {% endblock %}

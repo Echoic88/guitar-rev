@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     //Check if the page title ends in "results". If so call the function to draw graph
     //This is to stop the graph script attempting to run and failing when user is on other pages 
-    let thisPage = $(location).attr("href")
+    let thisPage = $(location).attr("href");
     let thisPageLast = thisPage.substring(thisPage.length-7, thisPage.length)
 
     if (thisPageLast === "results") {
@@ -25,7 +25,7 @@ $(document).ready(function () {
         let ndx = crossfilter(results);
         let guitarDim = ndx.dimension(dc.pluck("_id"));
         let votesDim = guitarDim.group().reduceSum(dc.pluck("number_of_votes"));
-
+        
         dc.barChart("#pollChart")
             .width(250)
             .height(200)
