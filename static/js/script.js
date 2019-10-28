@@ -7,6 +7,8 @@ $(document).ready(function () {
     let resourcePath = 'static/js/script.js';
     document.getElementById('myScript').src = resourcePath + '?v=' + Date.now();
 
+    //Check if the page title ends in "results". If so call the function to draw graph
+    //This is to stop the graph script attempting to run and failing when user is on other pages 
     let thisPage = $(location).attr("href")
     let thisPageLast = thisPage.substring(thisPage.length-7, thisPage.length)
 
@@ -17,24 +19,16 @@ $(document).ready(function () {
     }
 
         //Make graph for poll results
-         function makeGraph(results) {
+        function makeGraph(results) {
 
-        //From CI Lesson
+        //From Code Institute Lesson
         let ndx = crossfilter(results);
         let guitarDim = ndx.dimension(dc.pluck("_id"));
         let votesDim = guitarDim.group().reduceSum(dc.pluck("number_of_votes"));
 
         dc.barChart("#pollChart")
-            //.width(300)
-            //.height(150)
-            /*
-            .margins({
-                top: 10,
-                right: 50,
-                bottom: 30,
-                left: 50
-            })
-            */
+            .width(250)
+            .height(200)
             .dimension(guitarDim)
             .group(votesDim)
             .transitionDuration(500)
@@ -42,7 +36,6 @@ $(document).ready(function () {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("votes")
             .yAxis().ticks(4);
-
         dc.renderAll();
     }
 });
