@@ -10,8 +10,7 @@ import cloudinary.uploader
 
 app = Flask(__name__)
 app.config["MONGODB_NAME"] = "guitarReview"
-app.config["MONGO_URI"] = os.getenv("mongoURI")
-app.secret_key = os.getenv("sessionKey", "random123")
+
 
 cloudinary.config.update = ({
     'cloud_name': os.environ.get('CLOUDINARY_CLOUD_NAME'),
