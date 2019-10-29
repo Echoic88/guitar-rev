@@ -10,6 +10,8 @@ import cloudinary.uploader
 
 app = Flask(__name__)
 app.config["MONGODB_NAME"] = "guitarReview"
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 
 cloudinary.config.update = ({
