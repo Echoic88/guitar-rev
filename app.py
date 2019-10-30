@@ -68,7 +68,6 @@ def get_user():
     try:
         user = mongo.db.users.find_one({"user_name": request.form.get("user_name")})
         session["user_id"] = str(user["_id"])
-        print("Log in " + session["user_id"])
         return redirect("/guitars")
 
     except:
@@ -114,12 +113,16 @@ def delete_user():
     """
     Delete the current user
     """
-    if request.method == "POST":
+    try:
         user = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
         mongo.db.users.delete_one({"_id": ObjectId(session["user_id"])})
-        flash("Sorry to see you go")
-    return render_template("index.html", user=None, page_title="Home")
+        flash("Sorry to see you go {}")
+        return redirect("/index")
 
+    except:
+        print("Delete User Failed")
+        return redirect("/index")  
+    
 
 @app.route("/guitars")
 def guitars():
