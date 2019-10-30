@@ -58,7 +58,7 @@ def register_user():
         return render_template("register.html", page_title="Register")
 
 
-@app.route("/get_user", methods=["GET", "POST"])
+@app.route("/get_user", methods=["POST"])
 def get_user():
     """
     Retrieve user details and route to guitars page
@@ -68,7 +68,7 @@ def get_user():
     try:
         # Add user id to session cookie to navigate between pages
         session["user_id"] = str(user["_id"])
-        return redirect("/guitars")
+        return render_template("/guitars")
 
     except:
         print("NO SUCH USER")
