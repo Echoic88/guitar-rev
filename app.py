@@ -32,7 +32,7 @@ def index():
 
     try:
         user = mongo.db.users.find_one({"user_name": request.form.get("user_name")})
-        return render_template("index.html", user=user)
+        return render_template("index.html", user=user, page_title="Home")
     except:
         session["user_id"] = str("")
         return render_template("index.html", page_title="Home")
@@ -64,11 +64,12 @@ def get_user():
     Retrieve user details and route to guitars page
     """
     user = mongo.db.users.find_one({"user_name": request.form.get("user_name")})
-
+    
+    # Add user id to session cookie to navigate between pages
     try:
-        # Add user id to session cookie to navigate between pages
         session["user_id"] = str(user["_id"])
-        return render_template("/guitars")
+        print("Log in " + session["user_id"])
+        return redirect("/guitars")
 
     except:
         print("NO SUCH USER")
@@ -133,6 +134,7 @@ def guitars():
 
     except:
         # if no user then return to home page
+        print("Fail to retrive guitars/guitars page")
         return redirect("/index")
 
 
@@ -218,4 +220,4 @@ def poll_results():
     return render_template("poll-results.html", results=votes_dict, resList=json.dumps(votes_per_guitar), page_title="Poll Results")
 
 if __name__ == "__main__":
-    app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=False)
+    app.run(host=os.getenv("IP"), port=(os.getenv("PORT")), debug=True)

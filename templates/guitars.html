@@ -3,7 +3,8 @@
 <div class="container">
     <h2 class="center-align"> Guitar List </h2>
     <div class="row">
-        <h4 class="center-align">{% if user is none %}
+        <h4 class="center-align">
+            {% if user is none %}
             Please Log In
             {% else %}
             Hi {{ user.user_name }}
@@ -21,9 +22,9 @@
             <h3>{{ guitar.gtr_name }}</h3>
             <div class="gtr-image-wrapper">
                 {% if guitar.image_id is none or guitar.image_id=="" %}
-                <img class="guitar-image" src="{{url_for('static', filename='images/randy.jpg'" alt="Placholder guitar image">
+                <img class="guitar-image" src="{{url_for('static', filename='images/randy.jpg')}}" alt="Placeholder guitar image">
                 {% else %}
-                <img class="guitar-image" src="{{ guitar.image_id }}" alt="{{ guitar.gtr_name }}">
+                <img class="guitar-image" src="{{ guitar.image_id }}">
                 {% endif %}
             </div>
             <p>Brand: {{guitar.brand}}</p>
