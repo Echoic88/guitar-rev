@@ -63,10 +63,10 @@ def get_user():
     """
     Retrieve user details and route to guitars page
     """
-    user = mongo.db.users.find_one({"user_name": request.form.get("user_name")})
     
     # Add user id to session cookie to navigate between pages
     try:
+        user = mongo.db.users.find_one({"user_name": request.form.get("user_name")})
         session["user_id"] = str(user["_id"])
         print("Log in " + session["user_id"])
         return redirect("/guitars")
