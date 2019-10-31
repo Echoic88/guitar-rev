@@ -81,6 +81,7 @@ def logout():
     Logout User
     """
     session["user_id"] = ""
+    flash("You are now logged out")
     return redirect("/index")
 
 
