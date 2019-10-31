@@ -71,7 +71,7 @@ def get_user():
         return redirect("/guitars")
 
     except:
-        flash("Sorry. Thats user isnt recognised")
+        flash("Sorry. That user isnt recognised")
         return redirect("/index")
 
 
