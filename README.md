@@ -40,7 +40,7 @@ No wireframe used for this project.
 * Add password to user login.
 * Ability for users to edit and delete existing reviews.
 * Add user confirmation before deleting a user.
-* Add option to remove user revies when a user is deleted.
+* Add option to remove user reviews when a user is deleted.
 * Make guitar image upload optional and provide a placeholder image for relevant guitar details if no image has been provided by the user.
 * Improved UI across all pages.
 
@@ -53,7 +53,7 @@ Also used for collapsible Navbar and buttons across pages
 https://materializecss.com/
 * Jquery - Used to support Materialize.
 https://jquery.com/
-* Python - Used for handling data to and from mongoDB and routing between the pages.
+* Python - Used for handling data to and from mongoDB and routing between the pages and  to capture data for poll results
 https://www.python.org/
 * DC/Crossfilter/D3 - Used for chart displaying poll results.
 https://square.github.io/crossfilter/  

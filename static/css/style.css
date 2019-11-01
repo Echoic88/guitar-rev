@@ -41,6 +41,17 @@ input, label {
 span, textarea {
     color: #f1e1dd;
 }
+/* From Stack Overflow
+/* https://stackoverflow.com/questions/30944234/remove-input-file-button-and-style-the-files-chosen */
+
+input[type='file'] {
+    text-indent: -999em;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+/*---------------------------------------------------------------------------------------------------*/
 .guitar-image {
     max-height: 150px;
     max-width: 150px;
