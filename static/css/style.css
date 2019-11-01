@@ -59,9 +59,12 @@ input[type='file'] {
 .edit-button {
     width: 90%;
 }
-.vote-for {
-    border: 1px solid black;
-    border-radius: 10px;
+.poll-pic {
+    height: 150px;
+    width: 150px;
+}
+.vote-input {
+    padding: 5px, 10px;
 }
 .vote-button {
     width: 80%;
